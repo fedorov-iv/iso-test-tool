@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Users</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: 'header'"/>
+
+<div class="container-fluid">
+
+    <h4>Users</h4>
+
+    <div class="d-flex">
+        <div>
+
+        </div>
+        <div class="ml-auto" style="padding-bottom:10px">
+            <a class="btn btn-outline-primary btn-sm pull-right" href="/users/add">Add new</a>
+        </div>
+    </div>
+
+    <div th:replace="fragments/searchform :: searchform('users')"/>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col" width="25%">name</th>
+            <th scope="col" width="25%">roles</th>
+            <th scope="col" width="25%">enabled</th>
+            <th  width="25%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td><a th:href="@{'/users/edit/?id=' + ${user.id}}" th:text="${user.username}"></a></td>
+            <td><span  th:text="${user.roles}"></span></td>
+            <td th:text="${user.enabled}"></td>
+            <td><a th:href="@{'/users/activate/?id=' + ${user.id}}" class="btn btn-outline-primary btn-sm float-right" th:text="${user.enabled == false} ? Enable : Disable">Enable</a><a th:href="@{'/users/delete/?id=' + ${user.id}}" class="btn btn-outline-danger btn-sm float-right" style="margin-right:5px">Delete</a></td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <div th:replace="fragments/pagination :: pagination('users')"/>
+
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

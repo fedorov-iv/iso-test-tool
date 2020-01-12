@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Load Module</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="attachStepModal" aria-hidden="true" th:fragment="attach_step_modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Attach step</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <div class="form-group">
+                    <label for="stepName">Step name</label>
+                    <input type="text" class="form-control" name="stepName" id="stepName"
+                           placeholder="Enter step name" required/>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="stepType">Type</label>
+                    <select class="form-control form-control-sm"  name="stepType" id="stepType">
+                        <option value="ISO">ISO Request</option>
+                        <option value="VALIDATE">Validation</option>
+                        <option value="DB">DB Query</option>
+                    </select>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="stepDescription">Description</label>
+                    <textarea class="form-control" name="stepDescription" id="stepDescription" rows="3"></textarea>
+                </div>
+
+                <!-- <div class="d-flex">
+                     <div>
+                         <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                         <a href="/steps" class="btn btn-outline-secondary btn-sm">Cancel</a>
+                     </div>
+                     <div class="ml-auto">
+
+                     </div>
+                 </div>-->
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" v-on:click="createAndAttachStep">Save</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal END-->
+
+</body>
+</html>

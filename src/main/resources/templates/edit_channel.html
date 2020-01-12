@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Channels</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: 'header'"/>
+<div class="container-fluid">
+
+    <h4 th:text="${channel.name}"></h4>
+
+
+    <form method="post">
+        <input type="hidden" name="id" th:value="${channel.id}">
+        <div class="form-group">
+            <label for="name">Channel name</label>
+            <input type="text" class="form-control" name="name" id="name"
+                   placeholder="Enter channel name" th:value="${channel.name}" required/>
+
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"
+                      th:text="${channel.description}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="channelType">Channel type</label>
+            <select class="form-control form-control-sm"  name="channelType" id="channelType">
+                <option value="ECOM" th:selected="${channel.channelType == 'ECOM'}">ECOM</option>
+                <option value="POS" th:selected="${channel.channelType == 'POS'}">POS</option>
+                <option value="ATM" th:selected="${channel.channelType == 'ATM'}">ATM</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="ip">IP</label>
+            <input type="text" class="form-control" name="ip" id="ip"
+                    th:value="${channel.ip}" required/>
+        </div>
+        <div class="form-group">
+            <label for="ip">Port</label>
+            <input type="number" class="form-control" name="port" id="port"
+                    th:value="${channel.port}" required/>
+        </div>
+        <div class="form-group">
+            <label for="packager">Packager</label>
+            <select class="form-control form-control-sm"  name="packager" id="packager">
+                <option value="DHI.xml" th:selected="${channel.packager == 'DHI.xml'}">DHI.xml</option>
+                <option value="PosLine.xml" th:selected="${channel.packager == 'PosLine.xml'}">PosLine.xml</option>
+                <option value="MasterCard.xml" th:selected="${channel.packager == 'MasterCard.xml'}">MasterCard.xml</option>
+                <option value="Base1.xml" th:selected="${channel.packager == 'Base1.xml'}">Base1.xml</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="startSymbol">Start symbol</label>
+            <input type="text" class="form-control" name="startSymbol" id="startSymbol"
+                   th:value="${channel.startSymbol}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="headerLength">Header length</label>
+            <input type="number" class="form-control" name="headerLength" id="headerLength"
+                   th:value="${channel.headerLength}"/>
+        </div>
+
+        <div class="d-flex">
+            <div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                <a href="/channels" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            </div>
+            <div class="ml-auto">
+
+            </div>
+        </div>
+
+
+    </form>
+   
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

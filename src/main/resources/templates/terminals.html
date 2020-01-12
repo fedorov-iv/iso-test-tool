@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Terminals</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+
+</head>
+<body>
+
+
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="copyTerminalModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form method="post" id="copyTerminalForm" action="/terminals/copy">
+                <input type="hidden" name="terminalId" id="terminalId"/>
+                <div class="modal-header">
+                    <h5 class="modal-title">Copy terminal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Terminal name</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                               placeholder="Enter terminal name" required/>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal END-->
+
+<div th:replace="fragments/header :: 'header'"/>
+
+<div class="container-fluid">
+
+    <h4>Terminals</h4>
+
+    <div class="d-flex">
+        <div>
+
+        </div>
+        <div class="ml-auto" style="padding-bottom:10px">
+            <a class="btn btn-outline-primary btn-sm pull-right" href="/terminals/add">Add new</a>
+        </div>
+    </div>
+
+    <div th:replace="fragments/searchform :: searchform('terminals')"/>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col" width="20%">name</th>
+            <th scope="col" width="20%">terminalId</th>
+            <th scope="col" width="20%">merchantId</th>
+            <th scope="col" width="20%">mcc</th>
+            <th  width="20%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="terminal : ${terminals}">
+            <td><a th:href="@{'/terminals/edit/?id=' + ${terminal.id}}" th:text="${terminal.name}"></a></td>
+            <td th:text="${terminal.terminalId}"></td>
+            <td th:text="${terminal.merchantId}"></td>
+            <td th:text="${terminal.mcc}"></td>
+            <td><a th:href="@{'/terminals/delete/?id=' + ${terminal.id}}" class="btn btn-outline-danger btn-sm float-right">Delete</a><button type="button" th:onclick="'copyTerminal('+${terminal.id}+');'" class="btn btn-outline-primary btn-sm float-right" style="margin-right:5px">Copy</button></td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div th:replace="fragments/pagination :: pagination('terminals')"/>
+
+
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/static/js/copy-project.js}"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Load Module</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="d-flex" th:fragment="searchform(context)">
+    <div>
+
+    </div>
+    <div class="ml-auto">
+        <form name="searchForm" id="searchForm" th:action="@{'/' + ${context} + '/'}">
+            <input type="hidden" name="page" value="1">
+            <input type="hidden" name="size" th:value="${current_size}">
+            <div class="col-sm-20">
+                <div class="form-group">
+                    <input type="text" th:value="${current_search}" class="form-control form-control-sm" id="search" name="search" placeholder="Search">
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

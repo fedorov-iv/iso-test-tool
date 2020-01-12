@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Scenarios</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <script>
+             var scenarioAttributes = [];
+
+
+    </script>
+</head>
+<body>
+
+
+
+
+<div th:replace="fragments/header :: 'header'"/>
+
+<div class="container-fluid">
+
+
+    <h4 th:text="${scenario.name}"></h4>
+
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home_div" role="tab" aria-controls="home_div" aria-selected="true">General</a>
+        </li>
+       <!-- <li class="nav-item">
+            <a class="nav-link" th:classappend="${scenario.id} ? '' : disabled" id="parameters-tab" data-toggle="tab" href="#parameters_div" role="tab" aria-controls="parameters_div" aria-selected="false">Parameters</a>
+        </li>-->
+
+        <li class="nav-item">
+            <a class="nav-link"  th:classappend="${scenario.id} ? '' : disabled" id="steps-tab" data-toggle="tab" href="#steps_div" role="tab" aria-controls="steps_div" aria-selected="false">Steps</a>
+        </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent" style="padding-top:10px">
+        <div class="tab-pane fade show active" id="home_div" role="tabpanel" aria-labelledby="home-tab">
+
+            <form method="post" id="scenarioData">
+                <input type="hidden" name="id" id="scenario_id" th:value="${scenario.id}">
+                <div class="form-group">
+                    <label for="name">Scenario name</label>
+                    <input type="text" class="form-control" name="name" id="name"
+                           placeholder="Enter scenario name" th:value="${scenario.name}" required/>
+
+                </div>
+                <div class="form-group">
+                    <label for="channelId">Channel</label>
+                    <select class="form-control form-control-sm"  name="channelId" id="channelId">
+                        <option th:each="channel : ${channels}" th:text="${channel.name}" th:value="${channel.id}" th:selected="${channel.id == scenario.channelId}">Small select</option>
+                    </select>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="cardId">Card</label>
+                    <select class="form-control form-control-sm"  name="cardId" id="cardId">
+                        <option th:each="card : ${cards}" th:text="${card.name}" th:value="${card.id}" th:selected="${card.id == scenario.cardId}">Small select</option>
+                    </select>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="terminalId">Terminal</label>
+                    <select class="form-control form-control-sm"  name="terminalId" id="terminalId">
+                        <option th:each="terminal : ${terminals}" th:text="${terminal.name}" th:value="${terminal.id}" th:selected="${terminal.id == scenario.terminalId}">Small select</option>
+                    </select>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3"
+                              th:text="${scenario.description}"></textarea>
+                </div>
+
+                <div class="d-flex">
+                    <div>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                        <a href="/scenarios" class="btn btn-outline-secondary btn-sm">Cancel</a>
+                    </div>
+                    <div class="ml-auto">
+
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="tab-pane fade" id="parameters_div" role="tabpanel" aria-labelledby="parameters-tab">
+
+
+
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+
+                    <th scope="col" width="30%">name</th>
+                    <th scope="col" width="30%">code</th>
+                    <th scope="col" width="30%">description</th>
+                    <th  width="10%"></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr  v-for="param in attachedParams">
+                    <td><a v-bind:href="'/parameters/edit/?id=' + param.id">{{ param.name }}</a></td>
+                    <td>{{ param.code }}</td>
+                    <td>{{ param.description }}</td>
+                    <td><button class="btn btn-outline-danger btn-sm float-right" v-on:click="removeParameter(param.id)">Delete</button></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+
+            <div class="form-group">
+                <label for="attach_parameters">Select parameters</label>
+                <select class="form-control form-control-sm"  name="parameters" id="attach_parameters" v-model="paramsToAttach" multiple size="10">
+                    <option v-for="param in allParams" v-bind:value="param.id">{{ param.name }}</option>
+                </select>
+
+            </div>
+
+            <div class="d-flex">
+                <div>
+                    <button class="btn btn-outline-primary btn-sm" v-on:click="attachParameters" >Attach parameters</button>
+
+                </div>
+                <div class="ml-auto">
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="tab-pane fade" id="steps_div" role="tabpanel" aria-labelledby="steps-tab">
+            <div th:replace="fragments/edit_step_modal :: 'edit_step_modal'"/>
+
+            <div th:replace="fragments/attach_step_modal :: 'attach_step_modal'"/>
+
+
+
+
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+
+                    <th scope="col" width="20%">name</th>
+                    <th scope="col" width="50%">description</th>
+                    <th width="10%"></th>
+                    <th width="20%"></th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr  v-for="(scenarioStep, index) in attachedSteps">
+                    <td><a href="javascript:void(0)" v-on:click="editStep(scenarioStep.step.id)">{{ scenarioStep.step.name }}</a></td>
+                    <td>{{ scenarioStep.step.description }}</td>
+                    <td><a title="up" href="javascript:void(0)" v-on:click="moveUp(scenarioStep.step.id)" v-show="index != 0">▲</a>
+                        <br/>
+                        <a title="down" href="javascript:void(0)" v-on:click="moveDown(scenarioStep.step.id)" v-show="index < attachedSteps.length - 1">▼</a>
+                    </td>
+                    <td><button class="btn btn-outline-danger btn-sm float-right" v-on:click="removeStep(scenarioStep.step.id)">Delete</button></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+
+           <!-- <div class="form-group">
+                <label for="attach_steps">Select steps</label>
+                <select class="form-control form-control-sm"  name="steps" id="attach_steps" v-model="stepsToAttach" multiple size="10">
+                    <option v-for="step in allSteps" v-bind:value="step.id">{{ step.name }}</option>
+                </select>
+
+            </div>-->
+
+            <div class="d-flex">
+                <div>
+                    <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#attachStepModal">Attach step</button>
+
+                </div>
+                <div class="ml-auto">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="scenarioResults">
+
+            <div th:replace="fragments/run_scenario_modal :: 'run_scenario_modal'"/>
+
+            <div class="d-flex" th:if="${scenario.id}">
+                <div>
+
+                </div>
+                <div class="ml-auto" style="padding-bottom:10px">
+                    <button class="btn btn-outline-success btn-sm pull-right" v-on:click="run">Run scenario</button>
+                    <!-- <a class="btn btn-outline-success btn-sm pull-right" href="#" id="runScenarioButton" data-toggle="modal" data-target="#exampleModal">Run scenario</a>-->
+                </div>
+
+            </div>
+            <div class="alert alert-danger" role="alert" v-for="error in errors">
+               {{error}}
+            </div>
+            <div>Result</div>
+
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+
+                    <th scope="col" width="10%">#</th>
+                    <th scope="col" width="80%">step</th>
+                    <th scope="col" width="10%">result</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr  v-for="resultStep in resultSteps" v-if="resultStep.type == 'step'">
+                    <td>{{ resultStep.index }}</td>
+                    <td>{{ resultStep.name }}</td>
+                    <td>
+                        <span class="badge badge-success" v-if="resultStep.status == 'Pass'">{{ resultStep.status }}</span>
+                        <span class="badge badge-danger" v-if="resultStep.status == 'Fail'">{{ resultStep.status }}</span>
+
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="d-flex" th:if="${scenario.id}">
+                <div>
+
+                </div>
+                <div class="ml-auto" style="padding-bottom:10px">
+                    <button class="btn btn-outline-primary btn-sm pull-right" data-toggle="modal" data-target="#runScenarioModal" v-if="resultSteps.length > 0">See output</button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/static/js/vue.js}"></script>
+<script th:src="@{/static/js/components/scenario_attach_params.js}"></script>
+<script th:src="@{/static/js/components/scenario_attach_steps.js}"></script>
+<script th:src="@{/static/js/components/scenario_run.js}"></script>
+<!--<script th:src="@{/static/js/scenario-runner.js}"></script>-->
+</body>
+</html>

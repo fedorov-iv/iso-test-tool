@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Load Module</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="d-flex"  th:fragment="pagination(context)">
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-sm">
+                <li class="page-item" th:classappend="${current_page <= 1} ? disabled : ''">
+                    <a class="page-link" th:href="@{'/' + ${context} + '/?page=' + ${current_page - 1} + '&size=' + ${current_size} + '&search=' + ${current_search}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, pages)}" th:classappend="${current_page == i} ? active : ''"><a class="page-link" th:text="${i}" th:href="@{'/' + ${context} + '/?page=' + ${i} + '&size=' + ${current_size} + '&search=' + ${current_search}}">1</a></li>
+                <li class="page-item" th:classappend="${current_page == pages} ? disabled : ''">
+                    <a class="page-link" th:href="@{'/' + ${context} +'/?page=' + ${current_page + 1} + '&size=' + ${current_size} + '&search=' + ${current_search}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="ml-auto">
+        <div class="form-group row">
+
+            <label for="size" class="col-sm-5 col-form-label">Size:</label>
+            <div class="col-sm-20">
+                <select class="form-control form-control-sm"  name="size" id="size" onchange="document.location.href=this.options[this.options.selectedIndex].value">
+                    <option th:value="@{'/' + ${context} + '/?page=1&size=10&search=' + ${current_search}}" th:selected="${current_size == 10}">10</option>
+                    <option th:value="@{'/' + ${context} + '/?page=1&size=20&search=' + ${current_search}}" th:selected="${current_size == 20}">20</option>
+                    <option th:value="@{'/' + ${context} + '/?page=1&size=50&search=' + ${current_search}}" th:selected="${current_size == 50}">50</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

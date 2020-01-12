@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Projects</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="copyProjectModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form method="post" id="copyProjectForm" action="/projects/copy">
+                <input type="hidden" name="projectId" id="projectId"/>
+            <div class="modal-header">
+                <h5 class="modal-title">Copy project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name">Project name</label>
+                    <input type="text" class="form-control" name="name" id="name"
+                           placeholder="Enter project name" required/>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-primary">Save</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal END-->
+
+<div th:replace="fragments/header :: 'header'"/>
+
+<div class="container-fluid">
+
+    <h4>Projects</h4>
+
+    <div class="d-flex">
+        <div>
+
+        </div>
+        <div class="ml-auto" style="padding-bottom:10px">
+            <a class="btn btn-outline-primary btn-sm pull-right" href="/projects/add">Add new</a>
+        </div>
+    </div>
+
+    <div th:replace="fragments/searchform :: searchform('projects')"/>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+
+            <th scope="col" width="30%">name</th>
+            <th scope="col" width="60%">description</th>
+            <th  width="10%"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td><a th:href="@{'/projects/edit/?id=' + ${project.id}}" th:text="${project.name}"></a></td>
+            <td th:text="${project.description}"></td>
+            <td><a th:href="@{'/projects/delete/?id=' + ${project.id}}" class="btn btn-outline-danger btn-sm float-right">Delete</a><button type="button" th:onclick="'copyProject('+${project.id}+');'" class="btn btn-outline-primary btn-sm float-right" style="margin-right:5px">Copy</button></td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div th:replace="fragments/pagination :: pagination('projects')"/>
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/static/js/copy-project.js}"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Users</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: 'header'"/>
+<div class="container-fluid">
+
+    <h4>Edit user</h4>
+
+    <form method="post">
+        <input type="hidden" name="id" th:value="${user.id}">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username"
+                   th:value="${user.username}" placeholder="Enter  username" required readonly/>
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox"  class="form-check-input" name="enabled" id="enabled" th:checked="${user.enabled}"/>
+            <label for="enabled">Active</label>
+
+        </div>
+        <div class="form-group">
+            <label for="roles">Roles</label>
+            <select class="form-control form-control-sm"  name="roles" id="roles" multiple size="2">
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.rolename}"  th:selected="${user.roles.contains(role)}">Role name</option>
+            </select>
+
+        </div>
+
+        <div class="d-flex">
+            <div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                <a href="/users" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            </div>
+            <div class="ml-auto">
+
+            </div>
+        </div>
+
+
+    </form>
+
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

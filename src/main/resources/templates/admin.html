@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Load Module</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: 'header'"/>
+<div class="row">
+    <div class="col-sm-9 border-bottom shadow-sm p-3">
+        <table class="table table-sm table-hover align-items-center">
+            <thead>
+            <tr>
+                <th scope="col" width="30%">username</th>
+                <th scope="col" width="50%">roles</th>
+                <th scope="col" width="10%">enabled</th>
+                <th width="10%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.roles}"></td>
+                <td th:text="${user.enabled}"></td>
+                <td th:if="${user.enabled == true}"><a th:href="@{'/admin/user/disable/?id=' + ${user.id}}"
+                       class="btn btn-outline-danger btn-sm float-right">Disable</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-3 align-content-center text-center p-3">
+        <h1 class="h3 mb-3 font-weight-normal">Add user form</h1>
+        <form class="p-3" action="#" th:action="@{/admin/adduser}" method="post">
+            <div class="mb-4">
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" id="username" name="username" class="form-control mb-4" placeholder="Username"
+                       required>
+                <select class="form-control" id="roles" name="roles" multiple="multiple">
+                    <option th:each="role : ${roles}"
+                            th:value="${{role}}"
+                            th:text="${role.rolename}">Role name</option>
+                </select>
+                <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert">Errors</div>
+            </div>
+            <button class="btn btn-lg btn-block btn-outline-primary" type="submit">Add User</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

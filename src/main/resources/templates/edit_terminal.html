@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Terminals</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: 'header'"/>
+<div class="container-fluid">
+
+    <h4 th:text="${terminal.name}"></h4>
+
+
+    <form method="post">
+        <input type="hidden" name="id" th:value="${terminal.id}">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" id="name"
+                   placeholder="Enter name" th:value="${terminal.name}" required/>
+
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"
+                      th:text="${terminal.description}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="terminalType">Terminal type</label>
+            <select class="form-control form-control-sm"  name="terminalType" id="terminalType">
+                <option value="ECOM" th:selected="${terminal.terminalType == 'ECOM'}">ECOM</option>
+                <option value="POS" th:selected="${terminal.terminalType == 'POS'}">POS</option>
+                <option value="ATM" th:selected="${terminal.terminalType == 'ATM'}">ATM</option>
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="terminalId">Terminal ID</label>
+            <input type="number" class="form-control" name="terminalId" id="terminalId"
+                   placeholder="Enter terminal ID" th:value="${terminal.terminalId}" required/>
+        </div>
+        <div class="form-group">
+            <label for="merchantId">Merchant ID</label>
+            <input type="number" class="form-control" name="merchantId" id="merchantId"
+                   placeholder="Enter merchant ID" th:value="${terminal.merchantId}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="mcc">MCC</label>
+            <input type="text" class="form-control" name="mcc" id="mcc"
+                   placeholder="Enter MCC" th:value="${terminal.mcc}" required/>
+        </div>
+        <div class="form-group">
+            <label for="tpk">TPK</label>
+            <input type="text" class="form-control" name="tpk" id="tpk"
+                   placeholder="Enter TPK" th:value="${terminal.tpk}" required/>
+        </div>
+
+
+        <div class="d-flex">
+            <div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                <a href="/terminals" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            </div>
+            <div class="ml-auto">
+
+            </div>
+        </div>
+
+
+    </form>
+
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <title>ISO Testing Tool | Steps</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <script>
+             var stepAttributes = [];
+
+
+    </script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: 'header'"/>
+
+<div class="container-fluid">
+
+
+    <h4 th:text="${step.name}"></h4>
+
+   
+    <!--<div style="padding-bottom:20px">
+        <h6>Output</h6>
+        <div id="messages" class="card card-body" style="height:100px; overflow-y:scroll"></div>
+    </div>-->
+
+    <form method="post" id="stepData">
+        <input type="hidden" name="id" th:value="${step.id}" >
+        <div class="form-group">
+            <label for="name">Step name</label>
+            <input type="text" class="form-control" name="name" id="name"
+                   placeholder="Enter step name" th:value="${step.name}"/>
+
+        </div>
+
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control form-control-sm"  name="type" id="type">
+               <option value="ISO" th:selected="${step.type == 'ISO'}">ISO Request</option>
+                <option value="VALIDATE" th:selected="${step.type == 'VALIDATE'}">Validation</option>
+              <!--  <option value="DB" th:selected="${step.type == 'DB'}">DB Query</option>-->
+            </select>
+
+
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"
+                      th:text="${step.description}"></textarea>
+        </div>
+
+        <div class="d-flex">
+            <div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Save</button>
+                <a href="/steps" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            </div>
+            <div class="ml-auto">
+
+            </div>
+        </div>
+    </form>
+    <br/>
+    
+    <div class="bg-light p-3 rounded shadow-sm" th:if="${step.type == 'ISO'}">
+        <h5 >ISO Request Attributes</h5>
+        <table class="table table-sm table-borderless">
+            <thead >
+            <tr>
+                <th scope="col" width="50%">field</th>
+                <th scope="col" width="40%">value</th>
+                <th  width="10%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <form action="/steps/fields/add" method="post">
+                    <input type="hidden" name="id"/>
+                    <input type="hidden" name="stepId" th:value="${step.id}"/>
+                    <td><input class="form-control" type="text" name="name" required /></td>
+                    <td ><input class="form-control" type="text" name="value"/></td>
+                    <td><button type="submit" class="btn btn-outline-primary btn-sm float-right">Add</button></td>
+                </form>
+            </tr>
+            <tr th:each="step_field : ${step_fields}">
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                        stepAttributes.push({name: /*[[${step_field.name}]]*/ "", value: /*[[${step_field.value}]]*/ ""});
+                    /*]]>*/
+                </script>
+                <form action="/steps/fields/edit" method="post">
+                    <input type="hidden" name="id" th:value="${step_field.id}"/>
+                    <input type="hidden" name="stepId" th:value="${step.id}"/>
+                    <td>
+                        <div class="input-group mb-2">
+
+
+                            <input class="form-control" type="text" name="name" required th:value="${step_field.name}" data-toggle="tooltip" data-placement="top"/>
+
+                        </div>
+                    </td>
+                    <td ><input class="form-control" type="text" name="value" th:value="${step_field.value}"/></td>
+                    <td><button type="submit" class="btn btn-outline-primary btn-sm float-right">Save</button> <a th:href="@{'/steps/fields/delete/?id=' + ${step_field.id}}" class="btn btn-outline-danger btn-sm float-right" style="margin-right:5px">Delete</a></td>
+                </form>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+</div>
+<script th:src="@{/static/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<!--<script th:src="@{/static/js/step-runner.js}"></script>-->
+
+</body>
+</html>
